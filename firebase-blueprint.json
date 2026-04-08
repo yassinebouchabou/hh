@@ -1,0 +1,160 @@
+
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user account.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email", "isAdmin", "createdAt"]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reference": { "type": "string", "description": "The SKU or reference code of the product." },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "purchasePrice": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "description": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "countInStock": { "type": "number" },
+        "variants": { 
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "price": { "type": "number" },
+              "countInStock": { "type": "number" }
+            }
+          }
+        }
+      },
+      "required": ["id", "name", "price", "category", "countInStock"]
+    },
+    "Category": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" }
+      },
+      "required": ["id", "name"]
+    },
+    "Order": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerName": { "type": "string" },
+        "phone": { "type": "string" },
+        "state": { "type": "string" },
+        "commune": { "type": "string" },
+        "status": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "deliveryType": { "type": "string", "enum": ["home", "desk"] },
+        "deliveryCost": { "type": "number" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "productImage": { "type": "string" },
+        "quantity": { "type": "number" },
+        "selectedVariant": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "productName": { "type": "string" },
+              "productImage": { "type": "string" },
+              "quantity": { "type": "number" },
+              "price": { "type": "number" },
+              "selectedVariant": { "type": "string" }
+            }
+          }
+        },
+        "trackingNumber": { "type": "string" },
+        "deliveryPartner": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "customerName", "phone", "state", "status", "totalAmount"]
+    },
+    "DeliveryTariff": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DeliveryTariff",
+      "type": "object",
+      "properties": {
+        "stateName": { "type": "string" },
+        "homePrice": { "type": "number" },
+        "deskPrice": { "type": "number" },
+        "communeDesktops": { 
+          "type": "object",
+          "additionalProperties": { "type": "number" },
+          "description": "Mapping of commune names to number of available delivery offices."
+        }
+      },
+      "required": ["stateName", "homePrice", "deskPrice"]
+    },
+    "SiteSettings": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SiteSettings",
+      "type": "object",
+      "properties": {
+        "brandName": { "type": "string" },
+        "primaryColor": { "type": "string" },
+        "deliveryApiKey": { "type": "string" },
+        "deliveryCompanyName": { "type": "string" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password", "anonymous"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles."
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Store inventory."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Product categories."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders."
+    },
+    "/delivery_tariffs/{stateId}": {
+      "schema": { "$ref": "#/entities/DeliveryTariff" },
+      "description": "Shipping costs by region."
+    },
+    "/roles_admin/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Admin privileges marker."
+    },
+    "/settings/{docId}": {
+      "schema": { "$ref": "#/entities/SiteSettings" },
+      "description": "Application global configuration."
+    }
+  }
+}

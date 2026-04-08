@@ -1,0 +1,62 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 204 56% 98%;
+    --foreground: 210 40% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 40% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 40% 15%;
+    --primary: 24 95% 53%; /* Updated to Industrial Orange */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 180 67% 95%;
+    --secondary-foreground: 24 95% 53%;
+    --muted: 210 20% 92%;
+    --muted-foreground: 210 20% 45%;
+    --accent: 45 100% 50%; /* Updated to Golden Yellow */
+    --accent-foreground: 210 40% 15%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 24 95% 53%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-background text-foreground selection:bg-primary/20;
+  }
+}
+
+/* PERFORMANCE: Browser Rendering Hints */
+section, 
+.product-grid, 
+footer, 
+.layout-block {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* Optimization for off-screen image decoding */
+img {
+  content-visibility: auto;
+}
+
+/* Smooth GPU-accelerated transitions */
+.animate-in {
+  will-change: transform, opacity;
+}

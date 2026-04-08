@@ -1,0 +1,82 @@
+
+rules_version = '2';
+
+/**
+ * PixelCart Firestore Security Rules
+ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- GLOBAL HELPER FUNCTIONS ---
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.uid == "cgeNA9jvuCeC42zZV4EcntT21Jw2" ||
+        request.auth.uid == "2EyPzIYJzNUa9H0fMXQ7L0cA7iC3" ||
+        exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- COLLECTION RULES ---
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isOwner(userId);
+      allow delete: if isAdmin();
+
+      match /cart/{cartId} {
+        allow read, write: if isOwner(userId);
+        
+        match /cartItems/{itemId} {
+          allow read, write: if isOwner(userId);
+        }
+      }
+    }
+
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /categories/{categoryId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /delivery_tariffs/{stateId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /settings/{docId} {
+      allow get: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /delivery_connections/{companyId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow create: if true;
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    match /roles_admin/{userId} {
+      allow get: if isSignedIn();
+      allow list: if isAdmin();
+      allow create, update, delete: if false; 
+    }
+  }
+}

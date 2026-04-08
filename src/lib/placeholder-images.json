@@ -1,0 +1,58 @@
+{
+  "placeholderImages": [
+    {
+      "id": "drill",
+      "description": "Professional Power Drill",
+      "imageUrl": "https://picsum.photos/seed/drill/600/400",
+      "imageHint": "power drill"
+    },
+    {
+      "id": "grinder",
+      "description": "Angle Grinder",
+      "imageUrl": "https://picsum.photos/seed/grinder/600/400",
+      "imageHint": "angle grinder"
+    },
+    {
+      "id": "hammer",
+      "description": "Rotary Hammer",
+      "imageUrl": "https://picsum.photos/seed/hammer/600/400",
+      "imageHint": "rotary hammer"
+    },
+    {
+      "id": "wrench",
+      "description": "Wrench Set",
+      "imageUrl": "https://picsum.photos/seed/wrench/600/400",
+      "imageHint": "wrench set"
+    },
+    {
+      "id": "screwdriver",
+      "description": "Screwdriver Set",
+      "imageUrl": "https://picsum.photos/seed/screwdriver/600/400",
+      "imageHint": "screwdriver set"
+    },
+    {
+      "id": "laser",
+      "description": "Laser Level",
+      "imageUrl": "https://picsum.photos/seed/laser/600/400",
+      "imageHint": "laser level"
+    },
+    {
+      "id": "helmet",
+      "description": "Safety Helmet",
+      "imageUrl": "https://picsum.photos/seed/helmet/600/400",
+      "imageHint": "safety helmet"
+    },
+    {
+      "id": "toolbox",
+      "description": "Metal Toolbox",
+      "imageUrl": "https://picsum.photos/seed/toolbox/600/400",
+      "imageHint": "toolbox"
+    },
+    {
+      "id": "gloves",
+      "description": "Work Gloves",
+      "imageUrl": "https://picsum.photos/seed/gloves/600/400",
+      "imageHint": "work gloves"
+    }
+  ]
+}
